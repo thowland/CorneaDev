@@ -10,10 +10,11 @@ from .glyphs import BUILDERS
 from .ligatures import LIGATURES, feature_text
 
 # Extension ranges register themselves into BUILDERS on import.
-from . import latin1, boxdraw, powerline  # noqa: F401
+from . import latin1, boxdraw, powerline, greek  # noqa: F401
 
 EXTRA_CMAP = {}
 EXTRA_CMAP.update(latin1.EXTRA_CMAP)
+EXTRA_CMAP.update(greek.EXTRA_CMAP)
 
 
 def _compile_glyph(contours):
@@ -97,6 +98,10 @@ def build_weight(P, family, version, enable_ligatures=True):
         xAvgCharWidth=P.adv, fsSelection=fs_selection,
         panose=panose, achVendID="WDOG",
         ulCodePageRange1=0x00000001,   # Latin 1
+        # Basic Latin, Latin-1, Greek, General Punctuation
+        ulUnicodeRange1=0x80000083,
+        # Arrows, Math Operators, Box Drawing, Block Elements, PUA
+        ulUnicodeRange2=0x10001860,
     )
     fb.setupPost(isFixedPitch=1, underlinePosition=-120,
                  underlineThickness=70)

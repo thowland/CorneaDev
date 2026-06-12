@@ -14,6 +14,9 @@ SYMS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 CODE1 = "if (x != y && a >= b) { return list[i] -> 0x1F; }"
 CODE2 = "const fn = (a) => a === b ? items[0] : data || {}; // note"
 CODE3 = "while (i <= n) { s += arr[i]; i++; } ... :: != !=="
+EXT1 = "àéîõü ÇçßÆæØøð ¡¿«» ©®°±×÷µ ¼½¾"
+EXT2 = "αβγδεπφω ΓΔΣΨΩ ≈≠≤≥∞√ ‘’“”–—… ←↑→↓"
+EXT3 = "┌─┬─┐ ╔═╦═╗ ├┼┤ ╰─╯ ╠╬╣ ▁▃▅█ ░▒▓ ▖▞▟"
 
 # pt -> px at 96 dpi
 SIZES = [(10, 13), (11, 15), (12, 16), (13, 17), (14, 19), (16, 21)]
@@ -32,10 +35,13 @@ def render(ttf_paths, out_path, width=1280):
         rows.append(("text", DISAMBIG, big))
         rows.append(("text", ALPHA, big))
         rows.append(("text", SYMS, big))
+        rows.append(("text", EXT1, big))
+        rows.append(("text", EXT2, big))
         for pt, px in SIZES:
             f = ImageFont.truetype(ttf, px, layout_engine=layout)
             rows.append(("label", f"-- {pt}pt --", None))
-            for line in (DISAMBIG, ALPHA, CODE1, CODE2, CODE3):
+            for line in (DISAMBIG, ALPHA, CODE1, CODE2, CODE3, EXT1, EXT2,
+                         EXT3):
                 rows.append(("text", line, f))
 
     label_font = ImageFont.load_default()

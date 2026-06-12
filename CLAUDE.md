@@ -52,8 +52,11 @@ One parametric pipeline, per weight:
    `@glyph(name, codepoint)` into `BUILDERS`. Builders take the param namespace
    `P` and return contour lists inside the fixed 600-unit cell. Build-time
    variants (`P.zero_style`, `P.seven_style`) are set on `P` by the CLI.
-   Extending coverage (planned: Latin-1, box drawing, Powerline, Greek/math) =
-   new builders registering into `BUILDERS`, ideally in new modules.
+   Extension modules (`latin1.py`, `boxdraw.py`, `powerline.py`, `greek.py`)
+   register more builders on import (imported in `builder.py`); codepoints
+   that share an existing glyph (NBSP, Greek Alpha→A, …) go in each module's
+   `EXTRA_CMAP`. New glyphs are named `uniXXXX`. Box/block/Powerline glyphs
+   fill the full line box (x 0..600, y -250..950) so cells connect.
 4. `cornea/ligatures.py` — ligature glyphs registered via `@liga(name, cells,
    components)`. Each is a single unencoded glyph whose advance is `cells * 600`
    (exact multiples keep editor columns aligned). `feature_text()` generates the

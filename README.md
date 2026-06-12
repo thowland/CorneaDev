@@ -21,8 +21,19 @@ disambiguate.
 | Weights | Regular (400) + Bold (700), same advance, generated from shared parametric skeletons |
 | Format | TTF (UPM 1000, quadratic outlines via cu2qu) |
 
-Deferred: italic, small caps. Planned coverage phases: Latin-1/Western
-European, box drawing + blocks, Powerline glyphs, Greek + common math.
+Deferred: italic, small caps.
+
+## Coverage
+
+- Full ASCII (U+0020–007E)
+- Latin-1 Supplement (U+00A0–00FF): composed diacritics, Ð ð Þ þ ß Æ æ Ø ø,
+  currency, ordinals, superscripts, fractions
+- Greek (U+0391–03C9; identical capitals alias Latin glyphs)
+- Common math: − ≈ ≠ ≤ ≥ ∞ √ (plus ± × ÷ from Latin-1)
+- General punctuation: – — ‘ ’ “ ” • … and arrows ← ↑ → ↓
+- Box Drawing (U+2500–257F) and Block Elements (U+2580–259F), spanning the
+  full line box so cells connect in terminals
+- Powerline separators/symbols (U+E0A0–E0A2, E0B0–E0B3)
 
 ## Building
 

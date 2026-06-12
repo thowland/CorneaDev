@@ -326,15 +326,16 @@ def g_paragraph(P):
 
 @glyph("uni00A9", 0xA9)
 def g_copyright(P):
-    c = ring(300, 360, 235, 235, capw(P.thin, 235))
-    c += scale_all(g_C(P), 0.42, 0.42, 300, 360)
+    # ring kept thin even in bold so the inner letter stays separated
+    c = ring(300, 360, 235, 235, min(P.thin, 76))
+    c += scale_all(g_C(P), 0.40, 0.40, 300, 360)
     return c
 
 
 @glyph("uni00AE", 0xAE)
 def g_registered(P):
-    c = ring(300, 360, 235, 235, capw(P.thin, 235))
-    c += scale_all(g_R(P), 0.42, 0.42, 300, 360)
+    c = ring(300, 360, 235, 235, min(P.thin, 76))
+    c += scale_all(g_R(P), 0.40, 0.40, 300, 360)
     return c
 
 
