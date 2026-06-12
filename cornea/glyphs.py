@@ -275,13 +275,18 @@ def g_Z(P):
 @glyph("a", 0x61)
 def g_a(P):
     # two-story a: hook runs from the stem over the top and down the left
-    # into the bowl; the bowl ring's top edge forms the middle bar.
+    # into the bowl; the bowl ring's top edge forms the middle bar. The hook's
+    # outer-left extremum is solved to land exactly on the bowl's, so the top
+    # never overhangs the bottom.
     w = P.stem - 14
     hook_cy = 420
     hook_ry = (P.xh + P.ot) - hook_cy - w / 2
+    bowl_cx, bowl_rx = 295, 186
+    bowl_left = bowl_cx - bowl_rx
+    hook_cx = (P.lc_stem_r + bowl_left + w / 2) / 2
     c = vstem(P, P.lc_stem_r, 0, P.xh - 25)
-    c += arc_band(302, hook_cy, P.lc_stem_r - 302, hook_ry, w, 0, 205)
-    c += ring(295, 153, 186, 165, P.stem)
+    c += arc_band(hook_cx, hook_cy, P.lc_stem_r - hook_cx, hook_ry, w, 0, 205)
+    c += ring(bowl_cx, 153, bowl_rx, 165, P.stem)
     return c
 
 
