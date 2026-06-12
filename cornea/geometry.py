@@ -108,6 +108,22 @@ class Path:
                     (seg[0],) + tuple((p[0] + dx, p[1] + dy) for p in seg[1:]))
         return out
 
+    def scaled(self, sx, sy, ox=0, oy=0):
+        """Scale about (ox, oy). If the scale mirrors (sx*sy < 0), the
+        traversal is reversed afterwards so fill orientation is preserved."""
+        out = Path()
+        for seg in self.segments:
+            if seg[0] == "close":
+                out.segments.append(seg)
+            else:
+                out.segments.append(
+                    (seg[0],) + tuple((ox + (p[0] - ox) * sx,
+                                       oy + (p[1] - oy) * sy)
+                                      for p in seg[1:]))
+        if sx * sy < 0:
+            out = out.reversed_()
+        return out
+
     def rotated180(self, cx, cy):
         out = Path()
         for seg in self.segments:
@@ -232,3 +248,7 @@ def translate_all(contours, dx, dy):
 
 def rotate180_all(contours, cx, cy):
     return [c.rotated180(cx, cy) for c in contours]
+
+
+def scale_all(contours, sx, sy, ox=0, oy=0):
+    return [c.scaled(sx, sy, ox, oy) for c in contours]

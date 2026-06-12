@@ -364,14 +364,18 @@ def g_h(P):
     return c
 
 
-@glyph("i", 0x69)
-def g_i(P):
-    # serif flag + foot: strong cue vs l, 1, |
+def _i_base(P):
+    """Dotless i: stem + flag + foot, shared by i and the accented forms."""
     c = vstem(P, 300, 0, P.xh)
     c += rect(185, P.xh - 70, 300, P.xh)            # top-left flag
     c += hbar(P, P.thin / 2, 175, 425)              # foot
-    c += dot(300, P.xh + 130, P.dotr)
     return c
+
+
+@glyph("i", 0x69)
+def g_i(P):
+    # serif flag + foot: strong cue vs l, 1, |
+    return _i_base(P) + dot(300, P.xh + 130, P.dotr)
 
 
 @glyph("j", 0x6A)

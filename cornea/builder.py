@@ -9,6 +9,12 @@ from . import params
 from .glyphs import BUILDERS
 from .ligatures import LIGATURES, feature_text
 
+# Extension ranges register themselves into BUILDERS on import.
+from . import latin1  # noqa: F401
+
+EXTRA_CMAP = {}
+EXTRA_CMAP.update(latin1.EXTRA_CMAP)
+
 
 def _compile_glyph(contours):
     pen = TTGlyphPen(None)
@@ -31,6 +37,9 @@ def build_weight(P, family, version, enable_ligatures=True):
             cmap[cp] = name
         glyphs[name] = _compile_glyph(fn(P))
         advances[name] = P.adv
+
+    for cp, target in EXTRA_CMAP.items():
+        cmap[cp] = target
 
     if enable_ligatures:
         for name, (cells, fn, _comps) in LIGATURES.items():
