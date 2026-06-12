@@ -10,7 +10,7 @@ from .glyphs import BUILDERS
 from .ligatures import LIGATURES, feature_text
 
 # Extension ranges register themselves into BUILDERS on import.
-from . import latin1  # noqa: F401
+from . import latin1, boxdraw, powerline  # noqa: F401
 
 EXTRA_CMAP = {}
 EXTRA_CMAP.update(latin1.EXTRA_CMAP)
