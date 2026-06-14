@@ -19,6 +19,45 @@ from cornea.builder import build_weight
 from cornea.specimen import render
 
 
+def autohint(path):
+    """Run ttfautohint over a built TTF in place. This adds the TrueType
+    instructions the parametric pipeline doesn't emit, which is what keeps cap
+    height / baseline consistent across glyphs below 12pt (the unhinted
+    rasterizer otherwise rounds different glyphs to different pixel heights).
+    Degrades to a no-op warning if ttfautohint-py isn't installed."""
+    try:
+        from ttfautohint import ttfautohint
+    except ImportError:
+        print(f"  (skip hinting: ttfautohint-py not installed; "
+              f"`.venv/bin/pip install ttfautohint-py`)")
+        return False
+    with open(path, "rb") as fh:
+        data = fh.read()
+    # 8..50 ppem covers 10-16pt @96dpi with margin; increase_x_height snaps the
+    # tall x-height onto the pixel grid at small sizes for an even baseline.
+    out = ttfautohint(in_buffer=data, hinting_range_min=8,
+                      hinting_range_max=50, increase_x_height=14,
+                      no_info=True)
+    # Box-drawing/blocks (U+2500-259F) and Powerline (U+E0A0-E0B3) fill the
+    # full cell so adjacent cells connect; grid-fitting their stems pulls the
+    # fill inward and opens seams. Strip their instructions so they fall back
+    # to the raw full-cell outline while text glyphs stay hinted.
+    from io import BytesIO
+    from fontTools.ttLib import TTFont
+    from fontTools.ttLib.tables import ttProgram
+    font = TTFont(BytesIO(out))
+    glyf = font["glyf"]
+    fullcell = [name for cp, name in font.getBestCmap().items()
+                if 0x2500 <= cp <= 0x259F or 0xE0A0 <= cp <= 0xE0B3]
+    for name in fullcell:
+        g = glyf[name]
+        if hasattr(g, "program"):
+            g.program = ttProgram.Program()
+            g.program.fromBytecode(b"")
+    font.save(path)
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -33,6 +72,8 @@ def main():
     ap.add_argument("--seven", choices=["plain", "crossbar"], default="plain",
                     help="digit seven style")
     ap.add_argument("--no-ligatures", action="store_true")
+    ap.add_argument("--no-hint", action="store_true",
+                    help="skip the ttfautohint pass (small-size grid fitting)")
     ap.add_argument("--no-specimen", action="store_true")
     args = ap.parse_args()
 
@@ -47,7 +88,9 @@ def main():
         fname = f"{args.family.replace(' ', '')}-{P.subfamily}.ttf"
         path = os.path.join(args.out, fname)
         font.save(path)
-        print(f"built {path}  ({len(font.getGlyphOrder())} glyphs)")
+        hinted = autohint(path) if not args.no_hint else False
+        tag = "  [autohinted]" if hinted else ""
+        print(f"built {path}  ({len(font.getGlyphOrder())} glyphs){tag}")
         paths.append(path)
 
     if not args.no_specimen:

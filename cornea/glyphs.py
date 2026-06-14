@@ -78,7 +78,9 @@ def g_D(P):
     c = vstem(P, x, 0, P.cap)
     c += hbar(P, P.cap - P.thin / 2, x, 310)
     c += hbar(P, P.thin / 2, x, 310)
-    c += arc_band(310, P.cap / 2, 210, P.cap / 2 - P.thin / 2 + 4,
+    # bowl rx pulled in (210->198) so the right edge clears the cell wall:
+    # at 600 advance the old 562 right extent crowded the next cap (e.g. DE).
+    c += arc_band(310, P.cap / 2, 198, P.cap / 2 - P.thin / 2 + 4,
                   P.stem, 90, -90)
     return c
 
@@ -150,11 +152,13 @@ def g_L(P):
 
 @glyph("M", 0x4D)
 def g_M(P):
+    # stems pulled in (85/515 -> 92/508) to even the sidebearings with the
+    # rest of the caps; previously M crowded its neighbours (e.g. MNO).
     s = P.stem * 0.92
     d = P.ds * 0.88
-    c = vstem(P, 85, 0, P.cap, s) + vstem(P, 515, 0, P.cap, s)
-    c += stroke((92, P.cap - 16), (300, 200), d)
-    c += stroke((508, P.cap - 16), (300, 200), d)
+    c = vstem(P, 92, 0, P.cap, s) + vstem(P, 508, 0, P.cap, s)
+    c += stroke((99, P.cap - 16), (300, 200), d)
+    c += stroke((501, P.cap - 16), (300, 200), d)
     return c
 
 
@@ -183,7 +187,9 @@ def g_P(P):
 @glyph("Q", 0x51)
 def g_Q(P):
     c = ring(300, P.cap / 2, 228, P.cap / 2 + P.ot, P.stem)
-    c += stroke((330, 170), (530, -60), P.ds)
+    # tail end pulled in (530->513) so it no longer poked past the cell wall
+    # and crowded the next cap (e.g. QR).
+    c += stroke((330, 170), (513, -60), P.ds)
     return c
 
 

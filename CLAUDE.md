@@ -17,13 +17,23 @@ Everything runs through the venv (no system pip):
 ```sh
 .venv/bin/python build_font.py            # build dist/*.ttf + dist/specimen.png
 .venv/bin/python build_font.py --help     # variants: --zero, --seven, --family,
-                                          #   --weights, --no-ligatures
+                                          #   --weights, --no-ligatures, --no-hint
 .venv/bin/python debug_render.py --size 72                    # big glyph sheet
 .venv/bin/python debug_render.py --text "O0o 1lI|" --size 96  # single custom row
 .venv/bin/python debug_render.py --font dist/CorneaMono-Bold.ttf
 ```
 
-If `.venv` is missing: `python3 -m venv .venv && .venv/bin/pip install fonttools pillow`.
+The build runs a ttfautohint pass over each weight (TrueType instructions for
+even cap height / baseline below 12pt, where the unhinted rasterizer rounds
+glyphs to different pixel heights). Box-drawing/blocks (U+2500–259F) and
+Powerline (U+E0A0–E0B3) get their instructions stripped afterwards so they
+still fill the cell edge-to-edge and connect. `--no-hint` skips the pass; the
+build also degrades to a warning if ttfautohint isn't installed.
+
+If `.venv` is missing: `python3 -m venv .venv && .venv/bin/pip install
+fonttools pillow ttfautohint-py`. `ttfautohint-py` shells out to a system
+`ttfautohint` binary (`apt install ttfautohint`); without it, builds still work
+but skip hinting.
 
 ## Iteration workflow (important)
 
