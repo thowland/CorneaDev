@@ -660,18 +660,26 @@ def g_dollar(P):
 
 @glyph("percent", 0x25)
 def g_percent(P):
-    c = ring(158, 562, 108, 112, capw(P.thin + 6, 108))
-    c += ring(442, 158, 108, 112, capw(P.thin + 6, 108))
-    c += stroke((462, 690), (138, 30), P.thin)
+    # Bold clogging fix: open the two ring counters (slightly larger rings,
+    # tighter stroke cap) and lighten the slash so it doesn't dominate at 12pt.
+    rw = min(P.thin, 110 * 0.55)
+    c = ring(158, 560, 110, 114, rw)
+    c += ring(442, 160, 110, 114, rw)
+    c += stroke((470, 700), (130, 20), min(P.thin, 84))
     return c
 
 
 @glyph("ampersand", 0x26)
 def g_ampersand(P):
-    c = ring(240, 548, 122, 138, capw(P.stem - 8, 122))
-    c += ring(235, 190, 182, 198, capw(P.stem - 4, 182))
-    c += stroke((310, 70), (556, 340), P.ds + 6)
-    c += stroke((448, 218), (556, 0), P.ds)
+    # Bold clogging fix: open the small upper eye and lighten the two tails so
+    # the loops survive at 12pt instead of merging into a blob.
+    # Larger upper eye overlapping the bowl: keeps the counter open even with a
+    # connecting wall, so the two loops don't merge into a blob (Bold) nor
+    # detach into a floating ring (thin wall).
+    c = ring(235, 528, 135, 165, capw(P.stem - 4, 135))
+    c += ring(235, 192, 182, 205, capw(P.stem - 8, 182))
+    c += stroke((310, 70), (556, 344), P.ds)
+    c += stroke((448, 214), (556, 0), P.ds - 12)
     return c
 
 
@@ -687,13 +695,15 @@ def g_parenright(P):
 
 @glyph("asterisk", 0x2A)
 def g_asterisk(P):
+    # Bold clogging fix: thinner, longer spokes so the six arms stay distinct
+    # at 12pt instead of fusing into a single dot (and not read as a period).
     import math
     c = []
-    cx, cy, r = 300, 490, 158
+    cx, cy, r = 300, 500, 172
+    aw = min(P.thin - 8, 70)
     for ang in (90, 150, 210, 270, 330, 30):
         a = math.radians(ang)
-        c += stroke((cx, cy), (cx + r * math.cos(a), cy + r * math.sin(a)),
-                    P.thin + 4)
+        c += stroke((cx, cy), (cx + r * math.cos(a), cy + r * math.sin(a)), aw)
     return c
 
 
