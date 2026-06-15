@@ -124,6 +124,19 @@ class Path:
             out = out.reversed_()
         return out
 
+    def sheared(self, k, pivot_y=0):
+        """Horizontal shear x += k*(y - pivot_y): the slant used for italics.
+        Determinant is 1, so fill orientation is preserved (no reversal)."""
+        out = Path()
+        for seg in self.segments:
+            if seg[0] == "close":
+                out.segments.append(seg)
+            else:
+                out.segments.append(
+                    (seg[0],) + tuple((p[0] + k * (p[1] - pivot_y), p[1])
+                                      for p in seg[1:]))
+        return out
+
     def rotated180(self, cx, cy):
         out = Path()
         for seg in self.segments:
@@ -244,6 +257,10 @@ def arc_band(cx, cy, rx, ry, w, a0, a1):
 
 def translate_all(contours, dx, dy):
     return [c.translated(dx, dy) for c in contours]
+
+
+def shear_all(contours, k, pivot_y=0):
+    return [c.sheared(k, pivot_y) for c in contours]
 
 
 def rotate180_all(contours, cx, cy):

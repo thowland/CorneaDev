@@ -14,11 +14,21 @@ from .geometry import (poly, rect, stroke, ellipse, dot, ring, arc_band,
                        translate_all)
 
 BUILDERS = {}   # glyph name -> (codepoint or None, fn)
+ITALIC_BUILDERS = {}   # glyph name -> fn, used in place of BUILDERS for italic
 
 
 def glyph(name, cp):
     def deco(fn):
         BUILDERS[name] = (cp, fn)
+        return fn
+    return deco
+
+
+def italic_glyph(name):
+    """Register a true-italic replacement shape for an existing glyph. Drawn
+    upright in normal coordinates; the build applies the slant uniformly."""
+    def deco(fn):
+        ITALIC_BUILDERS[name] = fn
         return fn
     return deco
 
@@ -293,6 +303,30 @@ def g_a(P):
     c = vstem(P, P.lc_stem_r, 0, P.xh - 25)
     c += arc_band(hook_cx, hook_cy, P.lc_stem_r - hook_cx, hook_ry, w, 0, 205)
     c += ring(bowl_cx, 153, bowl_rx, 165, P.stem)
+    return c
+
+
+# --- true-italic replacement shapes (drawn upright; slanted at build time) --
+
+@italic_glyph("a")
+def g_a_italic(P):
+    # single-story a: round bowl with a straight stem on its right edge and a
+    # small exit tail at the baseline -- the defining italic substitution.
+    bowl_cx, bowl_rx = 278, 192
+    c = ring(bowl_cx, P.xh / 2, bowl_rx, P.xh / 2 + P.ot, P.stem)
+    c += vstem(P, P.lc_stem_r, 0, P.xh)
+    c += arc_band(P.lc_stem_r - 66, 78, 66, 70, P.stem - 14, -88, -8)
+    return c
+
+
+@italic_glyph("f")
+def g_f_italic(P):
+    # cursive f: the stem descends below the baseline and hooks left, the
+    # second hallmark of a true italic.
+    c = vstem(P, 288, -118, 600)
+    c += arc_band(408, 600, 120, 100, P.stem - 6, 180, 64)    # top ear
+    c += arc_band(206, -118, 84, 96, P.stem - 6, 0, -158)     # descender hook
+    c += hbar(P, P.xh - P.thin / 2, 138, 470)                 # crossbar
     return c
 
 

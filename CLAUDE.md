@@ -51,7 +51,10 @@ One parametric pipeline, per weight:
 1. `cornea/params.py` — shared vertical scheme (UPM 1000, advance 600, cap 720,
    x-height 540) plus per-weight stroke widths (`stem`, `thin`, `ds`, `dotr`).
    Regular and Bold are the *same glyph code* run with different parameters;
-   a new weight is a new parameter set, nothing else.
+   a new weight is a new parameter set, nothing else. Italic adds a `slant`
+   (degrees) + `slant_pivot` (shear pivot y) + `italic_bit`; `builder.py`
+   shears every contour by `tan(slant)` about the pivot, except full-cell
+   glyphs (box/block/Powerline, which must stay axis-aligned to connect).
 2. `cornea/geometry.py` — `Path` (cubic contours) and primitives: `rect`,
    `stroke`, `ellipse`, `ring`, `arc_band` (a curved stroke = annular sector).
    Glyphs are unions of overlapping primitives; there are **no boolean ops** —
@@ -62,6 +65,9 @@ One parametric pipeline, per weight:
    `@glyph(name, codepoint)` into `BUILDERS`. Builders take the param namespace
    `P` and return contour lists inside the fixed 600-unit cell. Build-time
    variants (`P.zero_style`, `P.seven_style`) are set on `P` by the CLI.
+   True-italic replacement shapes (single-story `a`, cursive descending `f`)
+   register via `@italic_glyph(name)` into `ITALIC_BUILDERS`; they are drawn
+   upright and the build slants them like everything else.
    Extension modules (`latin1.py`, `boxdraw.py`, `powerline.py`, `greek.py`)
    register more builders on import (imported in `builder.py`); codepoints
    that share an existing glyph (NBSP, Greek Alpha→A, …) go in each module's
@@ -85,5 +91,8 @@ One parametric pipeline, per weight:
 - Strict monospace, 600/1000 advance everywhere; tall x-height (540), normal
   width — density comes from line height, not condensing.
 - Core ligature set only (`-> <- => == === != !== >= <= && || :: ...`).
-- TTF output. Italic and small caps are deferred. Bold (700) must stay a true
+- TTF output. Small caps deferred. Italic is a true italic — a uniform ~10°
+  slope plus single-story `a` and cursive descending `f`; box-drawing, blocks
+  and Powerline are excluded from the slope so cells still connect. Bold (700)
+  must stay a true
   same-advance weight, since IDEs rely on it for cues.

@@ -29,6 +29,11 @@ def weight(name):
         lc_stem_l=120,           # left stem center (b h k n p r ...)
         lc_stem_r=480,           # right stem center (d q u a g ...)
         lc_rx=220,               # OUTER x-radius of round bowls (o b d e ...)
+        # italic defaults (upright weights leave these untouched)
+        slant=0,                 # degrees; >0 leans the tops right
+        slant_pivot=340,         # shear pivot y (centres the slanted ink in the
+                                 # cell so caps don't lean past the right wall)
+        italic_bit=False,
     )
     if name == "regular":
         w = dict(stem=84, thin=68, ds=80, dotr=58,
@@ -36,9 +41,15 @@ def weight(name):
     elif name == "bold":
         w = dict(stem=130, thin=102, ds=122, dotr=72,
                  weight_class=700, subfamily="Bold", bold_bit=True)
+    elif name == "italic":
+        # true italic: regular stroke widths + a slope, with single-story a
+        # and a cursive f supplied as glyph overrides (see ITALIC_BUILDERS).
+        w = dict(stem=84, thin=68, ds=80, dotr=58,
+                 weight_class=400, subfamily="Italic", bold_bit=False,
+                 slant=10, italic_bit=True)
     else:
         raise ValueError(f"unknown weight: {name}")
-    return SimpleNamespace(**common, **w)
+    return SimpleNamespace(**{**common, **w})
 
 
-WEIGHTS = ["regular", "bold"]
+WEIGHTS = ["regular", "bold", "italic"]

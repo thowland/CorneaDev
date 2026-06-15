@@ -1,13 +1,24 @@
 """Assemble TTF files from the parametric glyph definitions."""
 
+import math
+
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.ttLib.tables.O_S_2f_2 import Panose
 
 from . import params
-from .glyphs import BUILDERS
+from .geometry import shear_all
+from .glyphs import BUILDERS, ITALIC_BUILDERS
 from .ligatures import LIGATURES, feature_text
+
+# Full-cell glyphs (box-drawing/blocks, Powerline) must stay axis-aligned so
+# adjacent cells connect -- they are never slanted, even in the italic.
+_NO_SLANT_RANGES = [(0x2500, 0x259F), (0xE0A0, 0xE0B3)]
+
+
+def _no_slant(cp):
+    return cp is not None and any(a <= cp <= b for a, b in _NO_SLANT_RANGES)
 
 # Extension ranges register themselves into BUILDERS on import.
 from . import latin1, boxdraw, powerline, greek  # noqa: F401
@@ -31,12 +42,22 @@ def build_weight(P, family, version, enable_ligatures=True):
     glyphs = {}
     advances = {}
 
+    slant = getattr(P, "slant", 0)
+    k = math.tan(math.radians(slant)) if slant else 0
+
+    def shaped(name, cp, fn):
+        builder = ITALIC_BUILDERS.get(name, fn) if P.italic_bit else fn
+        contours = builder(P)
+        if k and not _no_slant(cp):
+            contours = shear_all(contours, k, P.slant_pivot)
+        return _compile_glyph(contours)
+
     for name, (cp, fn) in BUILDERS.items():
         if name not in glyph_order:
             glyph_order.append(name)
         if cp is not None:
             cmap[cp] = name
-        glyphs[name] = _compile_glyph(fn(P))
+        glyphs[name] = shaped(name, cp, fn)
         advances[name] = P.adv
 
     for cp, target in EXTRA_CMAP.items():
@@ -45,7 +66,7 @@ def build_weight(P, family, version, enable_ligatures=True):
     if enable_ligatures:
         for name, (cells, fn, _comps) in LIGATURES.items():
             glyph_order.append(name)
-            glyphs[name] = _compile_glyph(fn(P))
+            glyphs[name] = shaped(name, None, fn)
             advances[name] = P.adv * cells
 
     fb = FontBuilder(params.UPM, isTTF=True)
@@ -88,7 +109,13 @@ def build_weight(P, family, version, enable_ligatures=True):
     panose.bMidline = 2
     panose.bXHeight = 4
 
-    fs_selection = 0x20 if P.bold_bit else 0x40   # BOLD / REGULAR
+    fs_selection = 0
+    if P.bold_bit:
+        fs_selection |= 0x20          # BOLD
+    if P.italic_bit:
+        fs_selection |= 0x01          # ITALIC
+    if not fs_selection:
+        fs_selection = 0x40           # REGULAR
     fb.setupOS2(
         sTypoAscender=params.TYPO_ASC, sTypoDescender=params.TYPO_DESC,
         sTypoLineGap=params.TYPO_GAP,
@@ -105,8 +132,16 @@ def build_weight(P, family, version, enable_ligatures=True):
     )
     fb.setupPost(isFixedPitch=1, underlinePosition=-120,
                  underlineThickness=70)
+    # italicAngle is negative for a right-leaning slope; ttfautohint and
+    # layout engines read it to position underline/strikeout and cursors.
+    fb.font["post"].italicAngle = -float(P.slant)
 
-    fb.font["head"].macStyle = 0x01 if P.bold_bit else 0x00
+    mac_style = 0
+    if P.bold_bit:
+        mac_style |= 0x01
+    if P.italic_bit:
+        mac_style |= 0x02
+    fb.font["head"].macStyle = mac_style
 
     if enable_ligatures:
         fb.addOpenTypeFeatures(feature_text())

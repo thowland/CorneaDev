@@ -63,8 +63,8 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--family", default="Cornea Mono",
                     help="font family name (default: Cornea Mono)")
-    ap.add_argument("--weights", default="regular,bold",
-                    help="comma list: regular,bold")
+    ap.add_argument("--weights", default="regular,bold,italic",
+                    help="comma list: regular,bold,italic")
     ap.add_argument("--version", default="0.1")
     ap.add_argument("--out", default="dist", help="output directory")
     ap.add_argument("--zero", choices=["dotted", "slashed", "plain"],
