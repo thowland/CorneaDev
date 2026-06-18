@@ -6,6 +6,37 @@ developers whose close-up vision isn't what it used to be. Grotesque
 (Helvetica-flavored) skeleton with deliberate serif cues only where they
 disambiguate.
 
+## Why it looks the way it does
+
+CorneaMono is designed for one reader: a developer with **presbyopia** — the
+age-related loss of near focus that sets in around 40. The screen image isn't
+cropped, it's *blurred*, so the whole design problem is keeping letters
+distinguishable when the picture is slightly out of focus. Every unusual-looking
+choice follows from that:
+
+- **Open apertures** (the "funny" `a`, `e`, `c`) — closed openings fill in and
+  smear into neighbours under blur and crowding; open ones hold their identity.
+  This is the single best-supported decision in the font.
+- **Disambiguated confusables** (`0`/`O`, `1`/`l`/`I`/`|`, `8`/`B`, `rn`/`m`, …)
+  — the look-alikes that cause real bugs, shaped per-glyph rather than uniformly.
+- **Selective serifs** on the troublemakers only (`I`, foot of `l`, `i`/`j`) —
+  serifs help where stroke contrast is uniform (as in a monospace) and at the
+  vertical extremes of letters; they go nowhere else.
+- **Tall x-height + generous, even spacing** — the lever that actually buys blur
+  tolerance at a given point size; monospace's roomy spacing is a bonus for
+  degraded reading.
+- **Mid-range weight; italic as the weakest channel** — heavy strokes close
+  counters and work against the open-aperture strategy, and slant is the hardest
+  style for these eyes, so the italic stays gentle and leans on weight/colour.
+
+Two companion documents in [`docs/`](docs/) go deeper:
+
+- [**Legibility Assessment & Design Rationale**](docs/CorneaMono_Legibility_Assessment.docx)
+  — a research-grounded evaluation mapping each decision to its evidence basis
+  and a confidence rating, with honest caveats and references.
+- [**Plain-Language Guide**](docs/CorneaMono_Plain_Language_Guide.docx)
+  — the same reasoning without the type-design vocabulary.
+
 ## Design decisions
 
 | Decision | Choice |
@@ -19,9 +50,10 @@ disambiguate.
 | Backtick vs quote | Backtick heavy and clearly slanted; quotes vertical |
 | Ligatures | Core set via `liga`+`calt`: `-> <- => == === != !== >= <= && \|\| :: ...` |
 | Weights | Regular (400) + Bold (700), same advance, generated from shared parametric skeletons |
+| Italic | True italic (~10° slope) with single-story `a` and cursive descending `f`; box-drawing, blocks and Powerline stay upright so cells still connect |
 | Format | TTF (UPM 1000, quadratic outlines via cu2qu) |
 
-Deferred: italic, small caps.
+Deferred: small caps.
 
 ## Coverage
 
