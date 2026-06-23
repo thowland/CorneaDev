@@ -63,8 +63,8 @@ def autohint(path):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--family", default="Cornea Mono",
-                    help="font family name (default: Cornea Mono)")
+    ap.add_argument("--family", default="CorneaDev Mono",
+                    help="font family name (default: CorneaDev Mono)")
     ap.add_argument("--weights", default="regular,bold,italic",
                     help="comma list: regular,bold,italic")
     ap.add_argument("--version", default="0.1")

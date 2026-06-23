@@ -1,4 +1,4 @@
-# Cornea Mono
+# CorneaDev Mono
 
 A monospaced font built as a *tool*: a utility typeface for software
 development, optimized for readability at 10–16pt — particularly for
@@ -6,11 +6,11 @@ developers whose close-up vision isn't what it used to be. Grotesque
 (Helvetica-flavored) skeleton with deliberate serif cues only where they
 disambiguate.
 
-![Cornea Mono specimen](dist/specimen.png)
+![CorneaDev Mono specimen](dist/specimen.png)
 
 ## Why it looks the way it does
 
-CorneaMono is designed for one reader: a developer with **presbyopia** — the
+CorneaDev Mono is designed for one reader: a developer with **presbyopia** — the
 age-related loss of near focus that sets in around 40. The screen image isn't
 cropped, it's *blurred*, so the whole design problem is keeping letters
 distinguishable when the picture is slightly out of focus. Every unusual-looking
@@ -33,10 +33,10 @@ choice follows from that:
 
 Two companion documents in [`docs/`](docs/) go deeper:
 
-- [**Legibility Assessment & Design Rationale**](docs/CorneaMono_Legibility_Assessment.md)
+- [**Legibility Assessment & Design Rationale**](docs/CorneaDevMono_Legibility_Assessment.md)
   — a research-grounded evaluation mapping each decision to its evidence basis
   and a confidence rating, with honest caveats and references.
-- [**Plain-Language Guide**](docs/CorneaMono_Plain_Language_Guide.md)
+- [**Plain-Language Guide**](docs/CorneaDevMono_Plain_Language_Guide.md)
   — the same reasoning without the type-design vocabulary.
 
 ## Design decisions
@@ -79,7 +79,7 @@ Grab the `.ttf` files from [`dist/`](dist/) (or a tagged release), then:
   `C:\Windows\Fonts`.
 - **Linux** — copy them to `~/.local/share/fonts` and run `fc-cache -f`.
 
-Then set your editor/terminal font to **Cornea Mono** (use the **Bold** weight
+Then set your editor/terminal font to **CorneaDev Mono** (use the **Bold** weight
 for bold cues and **Italic** for italics — IDEs pick these up automatically).
 Don't have it yet? Build from source below.
 
@@ -113,7 +113,7 @@ For close inspection of individual glyphs:
 ```sh
 .venv/bin/python debug_render.py --size 72                       # full sheet
 .venv/bin/python debug_render.py --text "O0o 1lI|" --size 96     # custom row
-.venv/bin/python debug_render.py --font dist/CorneaMono-Bold.ttf
+.venv/bin/python debug_render.py --font dist/CorneaDevMono-Bold.ttf
 ```
 
 ## Code layout
@@ -131,8 +131,8 @@ For close inspection of individual glyphs:
 
 ## License
 
-Cornea Mono is licensed under the [SIL Open Font License 1.1](LICENSE) — free
+CorneaDev Mono is licensed under the [SIL Open Font License 1.1](LICENSE) — free
 to use, study, modify, and redistribute (including bundled with software);
-it just can't be sold on its own and must stay under the OFL. **Cornea Mono**
+it just can't be sold on its own and must stay under the OFL. **CorneaDev Mono**
 is a Reserved Font Name: if you distribute a modified version, give it a
 different name.

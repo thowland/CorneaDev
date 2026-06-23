@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Render big glyph rows for visual debugging. Usage:
-   .venv/bin/python debug_render.py [--font dist/CorneaMono-Regular.ttf]
+   .venv/bin/python debug_render.py [--font dist/CorneaDevMono-Regular.ttf]
                                     [--size 64] [--text "custom"] [--out f.png]
 """
 import argparse
@@ -26,7 +26,7 @@ ROWS = [
 ]
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--font", default="dist/CorneaMono-Regular.ttf")
+ap.add_argument("--font", default="dist/CorneaDevMono-Regular.ttf")
 ap.add_argument("--size", type=int, default=64)
 ap.add_argument("--text", default=None, help="custom single row")
 ap.add_argument("--out", default="dist/debug.png")

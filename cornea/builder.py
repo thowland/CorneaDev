@@ -19,10 +19,10 @@ from .ligatures import LIGATURES, feature_text
 _NO_SLANT_RANGES = [(0x2500, 0x259F), (0xE0A0, 0xE0B3)]
 
 # Licensing, embedded in every build's name table (see setupNameTable below).
-# The Reserved Font Name clause documents the original "Cornea Mono"; a fork
+# The Reserved Font Name clause documents the original "CorneaDev Mono"; a fork
 # rebuilt under --family must rename and update this line.
 COPYRIGHT = ('Copyright 2026 Tim Howland (th@wdogsystems.com), '
-             'with Reserved Font Name "Cornea Mono".')
+             'with Reserved Font Name "CorneaDev Mono".')
 DESIGNER = "Tim Howland"
 LICENSE_DESC = ("This Font Software is licensed under the SIL Open Font "
                 "License, Version 1.1. This license is available with a FAQ "

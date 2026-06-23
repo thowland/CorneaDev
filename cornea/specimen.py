@@ -51,7 +51,7 @@ LIGATURES = "->  <-  =>  ==  ===  !=  !==  >=  <=  &&  ||  ::  ..."
 WEIGHT_LINE = "The quick brown fox jumps over 0 lazy Il1| dogs."
 
 CODE = [
-    "// Cornea Mono — built for long sessions at small sizes.",
+    "// CorneaDev Mono — built for long sessions at small sizes.",
     'import { readFile } from "node:fs/promises";',
     "",
     "interface Config {",
@@ -178,7 +178,7 @@ def render(ttf_paths, out_path, width=1360):
         y += int(px * lead)
 
     # -- header -----------------------------------------------------------
-    d.text((M, y), "Cornea Mono", font=F("bold", 60), fill=INK)
+    d.text((M, y), "CorneaDev Mono", font=F("bold", 60), fill=INK)
     y += 76
     d.text((M, y),
            "A monospace typeface engineered for legibility at small sizes.",
@@ -273,11 +273,11 @@ if __name__ == "__main__":
 
     order = {"Regular": 0, "Bold": 1, "Italic": 2}
     paths = sorted(
-        glob.glob("dist/CorneaMono-*.ttf"),
+        glob.glob("dist/CorneaDevMono-*.ttf"),
         key=lambda p: order.get(os.path.basename(p).split("-")[-1][:-4], 9),
     )
     if not paths:
-        raise SystemExit("no dist/CorneaMono-*.ttf found; run build_font.py first")
+        raise SystemExit("no dist/CorneaDevMono-*.ttf found; run build_font.py first")
     out, raqm = render(paths, "dist/specimen.png")
     note = "" if raqm else "  (no raqm: ligatures not shaped)"
     print(f"specimen {out}{note}")

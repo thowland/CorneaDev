@@ -1,10 +1,10 @@
-# Why CorneaMono
+# Why CorneaDev Mono
 
 **looks the way it does**
 
 *A plain-language guide to a coding font built for eyes over 40.*
 
-CorneaMono is a monospace typeface — the kind you write code in — designed with one particular reader in mind: someone whose near vision has started doing the thing that near vision does after about age 40. A few of its letters look a little unusual at first glance. All of that is on purpose. This guide explains the why, in plain terms, no type-design vocabulary required.
+CorneaDev Mono is a monospace typeface — the kind you write code in — designed with one particular reader in mind: someone whose near vision has started doing the thing that near vision does after about age 40. A few of its letters look a little unusual at first glance. All of that is on purpose. This guide explains the why, in plain terms, no type-design vocabulary required.
 
 **First, the one fact that explains almost everything**
 
@@ -14,13 +14,13 @@ So the whole design problem is this: **make letters that still tell themselves a
 
 **Why does the lowercase “a” (and “e”) look a bit funny?**
 
-Look at the little gap that lets you see into the inside of an “a,” “e,” or “c.” In CorneaMono we keep that gap wide open instead of curling it almost shut. That openness is what reads as slightly unusual.
+Look at the little gap that lets you see into the inside of an “a,” “e,” or “c.” In CorneaDev Mono we keep that gap wide open instead of curling it almost shut. That openness is what reads as slightly unusual.
 
 Here's the reason. When letters blur, the first thing that happens is that their openings fill in and the letters start to smear into their neighbours. A wide-open “e” stays an “e” when it's fuzzy; a nearly-closed one turns into a gray blob that could be an “s” or a “o.” Researchers have actually tested this — letters with open gaps are recognised more reliably than the same letters drawn closed, especially when they're crowded together like they are in a line of code. The funny-looking “e” is the whole point of the font working.
 
 **It's a sans-serif font… except sometimes it isn't?**
 
-Correct, and that's deliberate too. “Serifs” are the little feet on the ends of letter strokes. CorneaMono is mostly a clean, footless (sans-serif) design — but we added tiny serifs to a handful of specific letters, like the capital “I” and the bottom of the lowercase “l.”
+Correct, and that's deliberate too. “Serifs” are the little feet on the ends of letter strokes. CorneaDev Mono is mostly a clean, footless (sans-serif) design — but we added tiny serifs to a handful of specific letters, like the capital “I” and the bottom of the lowercase “l.”
 
 Why the inconsistency? Because those particular letters are troublemakers: a plain capital I, a lowercase l, and the number 1 can all look like the same vertical stick. A small serif gives each one a distinct silhouette so you don't have to guess. We didn't put serifs everywhere — just on the letters that earn them. (The makers of Atkinson Hyperlegible, a well-known accessibility font, do exactly the same thing.)
 
@@ -48,8 +48,8 @@ Italics are the soft spot. Slanted text is the hardest style for exactly the eye
 
 **Who is this actually for?**
 
-Mainly developers around 40 and up, and anyone who reads code at small sizes or in less-than-ideal light. But good legibility design is meant to be invisible: if you don't have any trouble reading, CorneaMono should simply feel like a clean, comfortable coding font and never announce that it's an “accessibility” typeface. That's the goal — helpful to the people who need it, unremarkable to everyone else.
+Mainly developers around 40 and up, and anyone who reads code at small sizes or in less-than-ideal light. But good legibility design is meant to be invisible: if you don't have any trouble reading, CorneaDev Mono should simply feel like a clean, comfortable coding font and never announce that it's an “accessibility” typeface. That's the goal — helpful to the people who need it, unremarkable to everyone else.
 
-> **The short version** Presbyopia makes close-up text blurry. CorneaMono draws every letter so it survives that blur — open shapes that don't smear, a few well-placed serifs to keep look-alike characters apart, a slashed zero, and roomy spacing. The unusual-looking letters are the ones doing the work.
+> **The short version** Presbyopia makes close-up text blurry. CorneaDev Mono draws every letter so it survives that blur — open shapes that don't smear, a few well-placed serifs to keep look-alike characters apart, a slashed zero, and roomy spacing. The unusual-looking letters are the ones doing the work.
 
-*Want the evidence and the references? See the companion document, “CorneaMono — Legibility Assessment & Design Rationale.”*
+*Want the evidence and the references? See the companion document, “CorneaDev Mono — Legibility Assessment & Design Rationale.”*

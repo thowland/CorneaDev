@@ -1,6 +1,6 @@
-# Contributing to Cornea Mono
+# Contributing to CorneaDev Mono
 
-Thanks for your interest. Cornea Mono is a **utility font**: a monospace
+Thanks for your interest. CorneaDev Mono is a **utility font**: a monospace
 typeface for code, tuned for legibility at 10–16 pt for developers with aging
 near vision. Legibility and disambiguation outrank beauty, and **correctness is
 judged visually from rendered specimens** — there is no unit-test suite, because
@@ -55,7 +55,7 @@ request and a sentence on the optical judgement behind it.
 
 ## Invariants that must not regress
 
-Cornea Mono is **strictly monospaced**, and editors/terminals rely on that.
+CorneaDev Mono is **strictly monospaced**, and editors/terminals rely on that.
 A change must keep:
 
 - every encoded glyph advance exactly **600** (ligatures = exact multiples);
@@ -95,7 +95,7 @@ render-and-squint cycle.
 
 ## Licensing
 
-Cornea Mono is released under the [SIL Open Font License 1.1](LICENSE). By
+CorneaDev Mono is released under the [SIL Open Font License 1.1](LICENSE). By
 contributing, you agree your contributions are licensed under the same terms.
-**Cornea Mono** is a Reserved Font Name: a distributed *modified* version must
+**CorneaDev Mono** is a Reserved Font Name: a distributed *modified* version must
 use a different name.

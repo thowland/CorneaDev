@@ -27,8 +27,8 @@ PROSE = "The quick brown fox jumps over the lazy dog. 0123456789"
 ROWS = [DISAMBIG, ALPHA_U, ALPHA_L, DIGITS, CODE1, CODE2, CODE3, CODE4, PROSE]
 
 WEIGHTS = [
-    ("Regular", "dist/CorneaMono-Regular.ttf"),
-    ("Bold", "dist/CorneaMono-Bold.ttf"),
+    ("Regular", "dist/CorneaDevMono-Regular.ttf"),
+    ("Bold", "dist/CorneaDevMono-Bold.ttf"),
 ]
 
 
