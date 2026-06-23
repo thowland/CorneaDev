@@ -16,6 +16,17 @@ from .ligatures import LIGATURES, feature_text
 # adjacent cells connect -- they are never slanted, even in the italic.
 _NO_SLANT_RANGES = [(0x2500, 0x259F), (0xE0A0, 0xE0B3)]
 
+# Licensing, embedded in every build's name table (see setupNameTable below).
+# The Reserved Font Name clause documents the original "Cornea Mono"; a fork
+# rebuilt under --family must rename and update this line.
+COPYRIGHT = ('Copyright 2026 Tim Howland (th@wdogsystems.com), '
+             'with Reserved Font Name "Cornea Mono".')
+DESIGNER = "Tim Howland"
+LICENSE_DESC = ("This Font Software is licensed under the SIL Open Font "
+                "License, Version 1.1. This license is available with a FAQ "
+                "at https://openfontlicense.org")
+LICENSE_URL = "https://openfontlicense.org"
+
 
 def _no_slant(cp):
     return cp is not None and any(a <= cp <= b for a, b in _NO_SLANT_RANGES)
@@ -89,12 +100,17 @@ def build_weight(P, family, version, enable_ligatures=True):
     style = P.subfamily
     ps_family = family.replace(" ", "")
     fb.setupNameTable({
+        "copyright": COPYRIGHT,
         "familyName": family,
         "styleName": style,
         "uniqueFontIdentifier": f"{version};{ps_family}-{style}",
         "fullName": f"{family} {style}",
         "psName": f"{ps_family}-{style}",
         "version": f"Version {version}",
+        "manufacturer": DESIGNER,
+        "designer": DESIGNER,
+        "licenseDescription": LICENSE_DESC,
+        "licenseInfoURL": LICENSE_URL,
     })
 
     panose = Panose()
@@ -123,6 +139,7 @@ def build_weight(P, family, version, enable_ligatures=True):
         sxHeight=params.XH, sCapHeight=params.CAP,
         usWeightClass=P.weight_class, usWidthClass=5,
         xAvgCharWidth=P.adv, fsSelection=fs_selection,
+        fsType=0,                      # installable embedding (OFL-friendly)
         panose=panose, achVendID="WDOG",
         ulCodePageRange1=0x00000001,   # Latin 1
         # Basic Latin, Latin-1, Greek, General Punctuation
