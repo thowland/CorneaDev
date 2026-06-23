@@ -33,10 +33,10 @@ choice follows from that:
 
 Two companion documents in [`docs/`](docs/) go deeper:
 
-- [**Legibility Assessment & Design Rationale**](docs/CorneaMono_Legibility_Assessment.docx)
+- [**Legibility Assessment & Design Rationale**](docs/CorneaMono_Legibility_Assessment.md)
   — a research-grounded evaluation mapping each decision to its evidence basis
   and a confidence rating, with honest caveats and references.
-- [**Plain-Language Guide**](docs/CorneaMono_Plain_Language_Guide.docx)
+- [**Plain-Language Guide**](docs/CorneaMono_Plain_Language_Guide.md)
   — the same reasoning without the type-design vocabulary.
 
 ## Design decisions

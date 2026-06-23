@@ -7,8 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Cornea Mono: a programmatically generated monospace TTF for software development,
 optimized for readability at 10–16pt (target user: older developers, small point
 sizes). It is a utility font — legibility and disambiguation outrank beauty.
-There is no git repo, no test suite, and no linter; correctness is judged
-visually from rendered specimens.
+There is no unit-test suite or linter; correctness is judged visually from
+rendered specimens. CI (`.github/workflows/build.yml`) builds all weights on
+every push as a regression check.
 
 ## Commands
 
