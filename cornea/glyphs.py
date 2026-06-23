@@ -374,9 +374,13 @@ def g_d(P):
 
 @glyph("e", 0x65)
 def g_e(P):
+    # The bowl arc starts at the crossbar (~8deg, terminal at the bar's right
+    # end) and sweeps over the top and around, opening the aperture cleanly
+    # below the bar. Starting lower (the old -25deg) hung the curve below the
+    # crossbar and narrowed the mouth to a slot, reading as an "o" with a bar.
     m = _round_lc(P)
     c = arc_band(m["cx"], m["cy"], m["rx"] - P.stem / 2,
-                 m["ry"] - P.stem / 2, P.stem, -25, 298)
+                 m["ry"] - P.stem / 2, P.stem, 8, 298)
     c += hbar(P, m["cy"] + 35, 95, 505)
     return c
 
