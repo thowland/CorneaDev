@@ -6,6 +6,8 @@ developers whose close-up vision isn't what it used to be. Grotesque
 (Helvetica-flavored) skeleton with deliberate serif cues only where they
 disambiguate.
 
+![Cornea Mono specimen](dist/specimen.png)
+
 ## Why it looks the way it does
 
 CorneaMono is designed for one reader: a developer with **presbyopia** — the
@@ -80,8 +82,17 @@ python3 -m venv .venv
 .venv/bin/python build_font.py --no-ligatures
 ```
 
-Every build regenerates `dist/specimen.png`, a waterfall at 10–16pt plus
-large rows — judge changes there, at target sizes, not at display sizes.
+Every build regenerates `dist/specimen.png` (shown above): a full specimen
+sheet — character set, disambiguation and ligature showcase, a
+syntax-highlighted code sample (keywords in Bold, comments in Italic), a
+weight comparison, and a 10–16pt size waterfall. Judge legibility in that
+waterfall, at target sizes, not in the large display rows.
+
+To redesign or re-render the specimen poster without rebuilding the fonts:
+
+```sh
+.venv/bin/python -m cornea.specimen            # re-renders dist/specimen.png
+```
 
 For close inspection of individual glyphs:
 
@@ -101,4 +112,5 @@ For close inspection of individual glyphs:
   new coverage = new builders registering into `BUILDERS`
 - `cornea/ligatures.py` — ligature glyphs + generated FEA feature code
 - `cornea/builder.py` — fontTools assembly (tables, metrics, monospace flags)
-- `cornea/specimen.py` — specimen sheet rendering
+- `cornea/specimen.py` — specimen sheet rendering (poster + size waterfall;
+  runnable standalone via `python -m cornea.specimen`)

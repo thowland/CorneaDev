@@ -82,7 +82,12 @@ One parametric pipeline, per weight:
    not regress: `post.isFixedPitch=1`, `OS/2.panose.bProportion=9`,
    `xAvgCharWidth=600`, every encoded glyph advance exactly 600.
 6. `cornea/specimen.py` / `debug_render.py` — PIL rendering of the built TTFs
-   (RAQM layout so ligatures actually shape).
+   (RAQM layout so ligatures actually shape). `specimen.py` builds the README
+   poster (header, character set, disambiguation + ligature showcase, a
+   syntax-highlighted code sample that uses the Bold/Italic faces inline, a
+   weight comparison) and ends with the native 10–16pt size waterfall that is
+   still the legibility-judging target. Re-render it standalone, without
+   rebuilding the fonts, via `.venv/bin/python -m cornea.specimen`.
 
 ## Design constraints (user-confirmed; do not silently change)
 
