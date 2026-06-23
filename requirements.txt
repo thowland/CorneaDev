@@ -1,0 +1,8 @@
+# Pinned for reproducible builds. Bump deliberately.
+fonttools==4.63.0
+pillow==12.2.0
+
+# Hinting pass. ttfautohint-py shells out to a system `ttfautohint` binary
+# (apt install ttfautohint / brew install ttfautohint); without it the build
+# still works but skips hinting. Optional but recommended.
+ttfautohint-py==0.6.0

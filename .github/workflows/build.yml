@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # ttfautohint-py shells out to this binary for the hinting pass.
+      - name: Install ttfautohint
+        run: sudo apt-get update && sudo apt-get install -y ttfautohint
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build fonts
+        run: python build_font.py
+
+      - name: Upload built fonts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CorneaMono-ttf
+          path: dist/*.ttf
+          if-no-files-found: error

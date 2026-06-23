@@ -69,11 +69,25 @@ Deferred: small caps.
   full line box so cells connect in terminals
 - Powerline separators/symbols (U+E0A0–E0A2, E0B0–E0B3)
 
+## Installing
+
+Grab the `.ttf` files from [`dist/`](dist/) (or a tagged release), then:
+
+- **macOS** — double-click each `.ttf` and click *Install Font*, or copy them
+  to `~/Library/Fonts`.
+- **Windows** — right-click each `.ttf` and choose *Install*, or copy them to
+  `C:\Windows\Fonts`.
+- **Linux** — copy them to `~/.local/share/fonts` and run `fc-cache -f`.
+
+Then set your editor/terminal font to **Cornea Mono** (use the **Bold** weight
+for bold cues and **Italic** for italics — IDEs pick these up automatically).
+Don't have it yet? Build from source below.
+
 ## Building
 
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install fonttools pillow
+.venv/bin/pip install -r requirements.txt      # fonttools, pillow, ttfautohint-py
 
 .venv/bin/python build_font.py                 # builds dist/*.ttf + specimen.png
 .venv/bin/python build_font.py --help          # all options
@@ -114,3 +128,11 @@ For close inspection of individual glyphs:
 - `cornea/builder.py` — fontTools assembly (tables, metrics, monospace flags)
 - `cornea/specimen.py` — specimen sheet rendering (poster + size waterfall;
   runnable standalone via `python -m cornea.specimen`)
+
+## License
+
+Cornea Mono is licensed under the [SIL Open Font License 1.1](LICENSE) — free
+to use, study, modify, and redistribute (including bundled with software);
+it just can't be sold on its own and must stay under the OFL. **Cornea Mono**
+is a Reserved Font Name: if you distribute a modified version, give it a
+different name.
