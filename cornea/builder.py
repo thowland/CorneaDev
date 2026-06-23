@@ -1,8 +1,10 @@
 """Assemble TTF files from the parametric glyph definitions."""
 
 import math
+import os
 
 from fontTools.fontBuilder import FontBuilder
+from fontTools.misc.timeTools import epoch_diff
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.ttLib.tables.O_S_2f_2 import Panose
@@ -26,6 +28,19 @@ LICENSE_DESC = ("This Font Software is licensed under the SIL Open Font "
                 "License, Version 1.1. This license is available with a FAQ "
                 "at https://openfontlicense.org")
 LICENSE_URL = "https://openfontlicense.org"
+
+# Fixed build date so identical sources produce byte-identical TTFs (the built
+# fonts are committed; a wall-clock head date would churn them every build).
+# Overridable via SOURCE_DATE_EPOCH. Default: 2025-01-01 UTC.
+_DEFAULT_EPOCH = 1735689600
+
+
+def head_timestamp():
+    """Deterministic head.created/modified value (longDateTime, 1904 epoch).
+    Applied in build_weight AND re-applied after the ttfautohint pass, which
+    otherwise stamps the font with wall-clock time."""
+    src = int(os.environ.get("SOURCE_DATE_EPOCH", _DEFAULT_EPOCH))
+    return src - epoch_diff   # epoch_diff is negative (1904 is before 1970)
 
 
 def _no_slant(cp):
@@ -81,6 +96,7 @@ def build_weight(P, family, version, enable_ligatures=True):
             advances[name] = P.adv * cells
 
     fb = FontBuilder(params.UPM, isTTF=True)
+    fb.font.recalcTimestamp = False   # keep our deterministic head.modified
     fb.setupGlyphOrder(glyph_order)
     fb.setupCharacterMap(cmap)
     fb.setupGlyf(glyphs)
@@ -159,6 +175,8 @@ def build_weight(P, family, version, enable_ligatures=True):
     if P.italic_bit:
         mac_style |= 0x02
     fb.font["head"].macStyle = mac_style
+
+    fb.font["head"].created = fb.font["head"].modified = head_timestamp()
 
     if enable_ligatures:
         fb.addOpenTypeFeatures(feature_text())

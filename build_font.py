@@ -15,7 +15,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from cornea import params
-from cornea.builder import build_weight
+from cornea.builder import build_weight, head_timestamp
 from cornea.specimen import render
 
 
@@ -45,7 +45,7 @@ def autohint(path):
     from io import BytesIO
     from fontTools.ttLib import TTFont
     from fontTools.ttLib.tables import ttProgram
-    font = TTFont(BytesIO(out))
+    font = TTFont(BytesIO(out), recalcTimestamp=False)
     glyf = font["glyf"]
     fullcell = [name for cp, name in font.getBestCmap().items()
                 if 0x2500 <= cp <= 0x259F or 0xE0A0 <= cp <= 0xE0B3]
@@ -54,6 +54,8 @@ def autohint(path):
         if hasattr(g, "program"):
             g.program = ttProgram.Program()
             g.program.fromBytecode(b"")
+    # ttfautohint stamps head with wall-clock time; restore deterministic date.
+    font["head"].created = font["head"].modified = head_timestamp()
     font.save(path)
     return True
 
