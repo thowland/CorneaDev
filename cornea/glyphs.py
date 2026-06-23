@@ -408,7 +408,7 @@ def _i_base(P):
     """Dotless i: stem + flag + foot, shared by i and the accented forms."""
     c = vstem(P, 300, 0, P.xh)
     c += rect(185, P.xh - 70, 300, P.xh)            # top-left flag
-    c += hbar(P, P.thin / 2, 175, 425)              # foot
+    c += hbar(P, P.thin / 2, 165, 435)              # foot, widened to balance
     return c
 
 
@@ -491,11 +491,17 @@ def g_q(P):
 
 @glyph("r", 0x72)
 def g_r(P):
+    # Monospace can't kern, so a short arm strands a gap before the next
+    # letter (ra, re, ro). Reach is built into the glyph: a wider arch swept
+    # further down the right lands the terminal near the cell's balance point
+    # (~x510, where the round lowercase end). Stem aligns with the other
+    # left-stem lowercase (n h b) instead of the old +15 offset.
     w = P.stem - 4
     cy = 385
+    rx = 200
     ry = (P.xh + P.ot) - cy - w / 2
-    c = vstem(P, P.lc_stem_l + 15, 0, P.xh)
-    c += arc_band(310, cy, 175, ry, w, 180, 50)
+    c = vstem(P, P.lc_stem_l, 0, P.xh)
+    c += arc_band(P.lc_stem_l + rx, cy, rx, ry, w, 180, 38)
     return c
 
 
