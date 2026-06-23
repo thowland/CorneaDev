@@ -356,8 +356,11 @@ def g_b(P):
 
 @glyph("c", 0x63)
 def g_c(P):
+    # The open-right aperture leaves the ink short on the right, so the bowl
+    # is nudged right of the shared centre to even the sidebearings without
+    # touching the (load-bearing) opening.
     m = _round_lc(P)
-    return arc_band(m["cx"], m["cy"], m["rx"] - P.stem / 2,
+    return arc_band(m["cx"] + 18, m["cy"], m["rx"] - P.stem / 2,
                     m["ry"] - P.stem / 2, P.stem, 40, 320)
 
 
@@ -437,9 +440,11 @@ def g_k(P):
 
 @glyph("l", 0x6C)
 def g_l(P):
-    # tailed l: unmistakable vs 1, I, |
-    c = vstem(P, 275, 120, P.asc)
-    c += arc_band(380, 122, 105, 90, P.stem, 180, 295)
+    # tailed l: unmistakable vs 1, I, |. The rightward tail makes the glyph
+    # right-heavy, so the stem sits left of centre to optically centre it in
+    # the cell (was at 275, which stranded a gap before l in e.g. "all").
+    c = vstem(P, 239, 120, P.asc)
+    c += arc_band(344, 122, 105, 90, P.stem, 180, 295)
     return c
 
 
