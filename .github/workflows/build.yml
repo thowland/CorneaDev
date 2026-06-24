@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write        # needed to attach assets to the release on tags
     steps:
       - uses: actions/checkout@v4
 
@@ -25,12 +27,39 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Build fonts
-        run: python build_font.py
+      # On a v* tag, stamp the font version from the tag (v0.0.1 -> 0.0.1);
+      # otherwise fall back to build_font.py's default.
+      - name: Determine version
+        id: ver
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=0.1" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Upload built fonts
+      - name: Build fonts
+        run: python build_font.py --version "${{ steps.ver.outputs.version }}"
+
+      - name: Upload built fonts (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: CorneaDevMono-ttf
           path: dist/*.ttf
           if-no-files-found: error
+
+      # OFL requires the license to travel with the fonts, so it goes in the zip.
+      - name: Package release zip
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          mkdir -p release
+          cp dist/CorneaDevMono-*.ttf LICENSE release/
+          (cd release && zip "CorneaDevMono-${GITHUB_REF_NAME}.zip" CorneaDevMono-*.ttf LICENSE)
+
+      - name: Attach fonts to the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/CorneaDevMono-*.ttf
+            release/CorneaDevMono-*.zip

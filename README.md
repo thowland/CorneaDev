@@ -1,5 +1,7 @@
 # CorneaDev Mono
 
+[![build](https://github.com/thowland/CorneaDev/actions/workflows/build.yml/badge.svg)](https://github.com/thowland/CorneaDev/actions/workflows/build.yml)
+
 A monospaced font built as a *tool*: a utility typeface for software
 development, optimized for readability at 10–16pt — particularly for
 developers whose close-up vision isn't what it used to be. Grotesque
